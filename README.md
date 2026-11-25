@@ -1,56 +1,80 @@
-# Welcome to your Expo app 👋
+# Microscreens
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+![CI](https://github.com/PythoSalaf/microscreens/actions/workflows/ci.yml/badge.svg)
 
-## Get started
+A polished tech news app built in public: **50 days, 50 mobile and web UI builds.** Each day adds one real feature, posted as a screen recording.
 
-1. Install dependencies
+<p align="center">
+  <img src="./docs/demo.gif" width="280" alt="Microscreens demo" />
+</p>
 
-   ```bash
-   npm install
-   ```
+## Download
 
-2. Start the app
+**[Download the Android APK](REPLACE_WITH_RELEASE_LINK)**: install it and try it yourself. Demo login: `emilys` / `emilyspass`.
 
-   ```bash
-   npx expo start
-   ```
+## Features
 
-In the output, you'll find options to open the app in a
+- Animated onboarding with floating 3D art and a colour-blending background
+- Live feed from the Hacker News API with a hero story, skeleton loaders, and error and empty states
+- Custom pull-to-refresh built from gestures and Reanimated
+- Infinite scroll with prefetched story comments
+- Search with debounce, topic chips with a sliding highlight, and a story detail screen
+- Bookmarks that persist across restarts, with a Saved tab and swipe-to-remove
+- Login and sign-up with validation, a secure session, and protected routes
+- Offline mode: cached feed, animated offline banner, and persisted query cache
+- Custom animated tab bar and branded splash screen
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Tech stack
 
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+| Area      | Tools                                       |
+| --------- | ------------------------------------------- |
+| App       | Expo, React Native, TypeScript, Expo Router |
+| Styling   | NativeWind (Tailwind)                       |
+| Animation | Reanimated, Gesture Handler                 |
+| Data      | TanStack Query, NetInfo                     |
+| State     | Zustand, AsyncStorage, SecureStore          |
+| Forms     | React Hook Form, Zod                        |
+| Quality   | Jest, GitHub Actions                        |
+| Build     | EAS Build                                   |
 
-## Get a fresh project
+## Project structure
 
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+app/           routes (Expo Router, protected groups)
+screens/       one file per screen
+components/    shared UI components
+hooks/         data and UI hooks
+services/      API clients
+store/         Zustand stores
+schemas/       Zod validation schemas
+lib/           query client and persistence
+__tests__/     unit tests
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+## Run locally
 
-### Other setup steps
+```bash
+git clone https://github.com/PythoSalaf/microscreens.git
+cd microscreens
+npm install
+npx expo start
+```
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+## Tests
 
-## Learn more
+```bash
+npm run typecheck
+npm test
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+## Notes
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- News data comes from the Hacker News Algolia API.
+- Login uses the DummyJSON demo API. Sign-up is simulated, so new accounts are not stored.
+- 3D illustrations were generated with Magnific.
 
-## Join the community
+## Author
 
-Join our community of developers creating universal apps.
+Built by **Afolabi Taoheed**, a React Native and frontend developer open to remote roles.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+[Portfolio](https://afolabi-taoheed-portfolio.vercel.app) · [LinkedIn](https://linkedin.com/in/pythosalaf) · [GitHub](https://github.com/PythoSalaf)
