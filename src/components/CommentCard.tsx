@@ -1,5 +1,6 @@
 import { Text, View } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
+import { TEXT_CLASSES, useSettings } from "../store/useSettings";
 import { Comment } from "../types/comment";
 
 const COLORS = [
@@ -13,6 +14,7 @@ const COLORS = [
 type Props = { comment: Comment; index: number };
 
 export default function CommentCard({ comment, index }: Props) {
+  const textSize = useSettings((s) => s.textSize);
   const color = COLORS[comment.author.charCodeAt(0) % COLORS.length];
 
   return (
@@ -40,7 +42,10 @@ export default function CommentCard({ comment, index }: Props) {
           <Text className="text-xs text-slate-500">↳ {comment.replies}</Text>
         )}
       </View>
-      <Text className="text-sm text-slate-300 leading-5" numberOfLines={8}>
+      <Text
+        className={`text-slate-300 ${TEXT_CLASSES[textSize]}`}
+        numberOfLines={8}
+      >
         {comment.text}
       </Text>
     </Animated.View>

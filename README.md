@@ -12,6 +12,8 @@ A polished tech news app built in public: **50 days, 50 mobile and web UI builds
 
 **[Install the Android APK](https://expo.dev/accounts/bravecoder/projects/Microscreens/builds/c238a236-e822-4b81-a4f3-9c0783ee4efa)**: open it on your phone and try it yourself.
 
+This is the Week 1 build (Days 1 to 7). Newer features are in the code and run with `npx expo start`. A v2 build will follow.
+
 Demo login: `emilys` / `emilyspass`
 
 ## Features
@@ -25,32 +27,38 @@ Demo login: `emilys` / `emilyspass`
 - Login and sign-up with validation, a secure session, and protected routes
 - Offline mode: cached feed, animated offline banner, and persisted query cache
 - Custom animated tab bar and branded splash screen
-- Unit tests and CI on every push
+- Settings: default topic, card density, reading size, haptics, and data controls
+- Haptic feedback and native sharing
+- Theming: light, dark and system modes with five accent colours, built on CSS-variable design tokens
+- Unit tests (stores, validation, theme contrast) and CI on every push
 
 ## Progress
 
-| Day | Build                                            |
-| --- | ------------------------------------------------ |
-| 01  | Animated onboarding carousel                     |
-| 02  | Tech news feed with custom pull-to-refresh       |
-| 03  | Bookmarks, Saved tab and animated tab bar        |
-| 04  | Search, topic chips and story detail             |
-| 05  | Auth flow, protected routes and profile          |
-| 06  | TanStack Query, infinite scroll and offline mode |
-| 07  | Branded splash, tests, CI and installable APK    |
+| Day | Build                                             |
+| --- | ------------------------------------------------- |
+| 01  | Animated onboarding carousel                      |
+| 02  | Tech news feed with custom pull-to-refresh        |
+| 03  | Bookmarks, Saved tab and animated tab bar         |
+| 04  | Search, topic chips and story detail              |
+| 05  | Auth flow, protected routes and profile           |
+| 06  | TanStack Query, infinite scroll and offline mode  |
+| 07  | Branded splash, tests, CI and installable APK     |
+| 08  | Settings, haptics and native sharing              |
+| 09  | Light, dark and system themes with accent colours |
 
 ## Tech stack
 
-| Area      | Tools                                       |
-| --------- | ------------------------------------------- |
-| App       | Expo, React Native, TypeScript, Expo Router |
-| Styling   | NativeWind (Tailwind)                       |
-| Animation | Reanimated, Gesture Handler                 |
-| Data      | TanStack Query, NetInfo                     |
-| State     | Zustand, AsyncStorage, SecureStore          |
-| Forms     | React Hook Form, Zod                        |
-| Quality   | Jest, GitHub Actions                        |
-| Build     | EAS Build                                   |
+| Area      | Tools                                                |
+| --------- | ---------------------------------------------------- |
+| App       | Expo, React Native, TypeScript, Expo Router          |
+| Styling   | NativeWind (Tailwind) with CSS-variable theme tokens |
+| Animation | Reanimated, Gesture Handler                          |
+| Data      | TanStack Query, NetInfo                              |
+| State     | Zustand, AsyncStorage, SecureStore                   |
+| Forms     | React Hook Form, Zod                                 |
+| Native    | Expo Haptics, Share sheet                            |
+| Quality   | Jest, GitHub Actions                                 |
+| Build     | EAS Build                                            |
 
 ## Project structure
 
@@ -63,6 +71,7 @@ src/
   services/      API clients
   store/         Zustand stores
   schemas/       Zod validation schemas
+  theme/         design tokens, palette and theme provider
   lib/           query client and persistence
   utils/         helpers
   __tests__/     unit tests
@@ -71,8 +80,8 @@ src/
 ## Run locally
 
 ```bash
-git clone https://github.com/PythoSalaf/microscreens.git
-cd microscreens
+git clone https://github.com/PythoSalaf/Microscreens.git
+cd Microscreens
 npm install
 npx expo start
 ```

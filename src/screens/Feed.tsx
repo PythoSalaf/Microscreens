@@ -1,9 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
 import { onlineManager } from "@tanstack/react-query";
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Pressable, Text, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { useHaptics } from "../hooks/useHaptics";
+import { useSettings } from "../store/useSettings";
 import Animated, {
   Easing,
   cancelAnimation,
@@ -36,10 +38,19 @@ const MAX_PULL = 140;
 export default function Feed() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [search, setSearch] = useState("");
-  const [topicId, setTopicId] = useState("top");
+  const { tap, impact } = useHaptics();
+  const defaultTopic = useSettings((s) => s.defaultTopic);
+  const [override, setOverride] = useState<string | null>(null);
+  const crossed = useSharedValue(false);
 
   const debounced = useDebounce(search, 400);
-  const topic = TOPICS.find((t) => t.id === topicId) ?? TOPICS[0];
+
+  useEffect(() => {
+    setOverride(null);
+  }, [defaultTopic]);
+
+  const topic =
+    TOPICS.find((t) => t.id === (override ?? defaultTopic)) ?? TOPICS[0];
 
   const {
     stories,
@@ -98,8 +109,12 @@ export default function Feed() {
     })
     .onUpdate((e) => {
       pull.value = Math.min(Math.max(e.translationY * 0.5, 0), MAX_PULL);
+      const past = pull.value >= THRESHOLD;
+      if (past && !crossed.value) runOnJS(impact)();
+      crossed.value = past;
     })
     .onEnd(() => {
+      crossed.value = false;
       if (pull.value >= THRESHOLD) {
         busy.value = true;
         pull.value = withSpring(70);
@@ -158,7 +173,14 @@ export default function Feed() {
         <SearchBar open={searchOpen} value={search} onChange={setSearch} />
       </View>
 
-      <TopicChips topics={TOPICS} active={topic.id} onChange={setTopicId} />
+      <TopicChips
+        topics={TOPICS}
+        active={topic.id}
+        onChange={(id) => {
+          tap();
+          setOverride(id);
+        }}
+      />
 
       <OfflineBanner />
 

@@ -9,6 +9,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useHaptics } from "../hooks/useHaptics";
 import { useSaved } from "../store/useSaved";
 
 const ICONS: Record<
@@ -105,6 +106,7 @@ function TabItem({
 }
 
 export default function TabBar({ state, emitter, navigateToTab }: TabBarProps) {
+  const { tap } = useHaptics();
   const insets = useSafeAreaInsets();
   const tabW = useSharedValue(0);
   const pos = useSharedValue(state.index);
@@ -145,6 +147,7 @@ export default function TabBar({ state, emitter, navigateToTab }: TabBarProps) {
               canPreventDefault: true,
             });
             if (!focused && !event.defaultPrevented) {
+              tap();
               navigateToTab(route.key);
             }
           };

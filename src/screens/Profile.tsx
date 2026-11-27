@@ -37,11 +37,19 @@ export default function Profile() {
     <SafeAreaView edges={["top"]} className="flex-1 bg-slate-950">
       <StatusBar style="light" />
 
-      <View className="px-6 pt-4 pb-6">
-        <Text className="text-xs font-semibold tracking-widest text-indigo-300">
-          YOUR ACCOUNT
-        </Text>
-        <Text className="mt-1 text-4xl font-black text-white">Profile</Text>
+      <View className="px-6 pt-4 pb-6 flex-row items-end justify-between">
+        <View>
+          <Text className="text-xs font-semibold tracking-widest text-indigo-300">
+            YOUR ACCOUNT
+          </Text>
+          <Text className="text-4xl font-black text-white mt-1">Profile</Text>
+        </View>
+        <Pressable
+          onPress={() => router.push("/settings")}
+          className="w-11 h-11 rounded-full bg-slate-900 border border-slate-800 items-center justify-center active:opacity-80"
+        >
+          <Ionicons name="settings-outline" size={22} color="#E2E8F0" />
+        </Pressable>
       </View>
 
       <View className="px-6">

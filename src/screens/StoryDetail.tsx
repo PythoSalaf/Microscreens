@@ -3,7 +3,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as WebBrowser from "expo-web-browser";
-import { FlatList, Pressable, Text, View } from "react-native";
+import { FlatList, Pressable, Text, View, Platform, Share } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import BookmarkButton from "../components/BookmarkButton";
@@ -11,6 +11,7 @@ import CommentCard from "../components/CommentCard";
 import SkeletonCard from "../components/SkeletonCard";
 import StateView from "../components/StateView";
 import { useComments } from "../hooks/useComments";
+import { useHaptics } from "../hooks/useHaptics";
 import { Story } from "../types/story";
 
 type Params = {
@@ -26,6 +27,7 @@ type Params = {
 export default function StoryDetail() {
   const p = useLocalSearchParams<Params>();
   const router = useRouter();
+  const { tap } = useHaptics();
 
   const story: Story = {
     id: String(p.id),
@@ -37,6 +39,18 @@ export default function StoryDetail() {
     comments: Number(p.comments),
   };
 
+  const onShare = async () => {
+    tap();
+    try {
+      await Share.share(
+        Platform.OS === "ios"
+          ? { message: story.title, url: story.url }
+          : { message: `${story.title}\n${story.url}` },
+      );
+    } catch {
+      // the person closed the share sheet
+    }
+  };
   const { comments, status, retry } = useComments(story.id);
 
   const header = (
@@ -124,8 +138,16 @@ export default function StoryDetail() {
         >
           <Ionicons name="chevron-down" size={22} color="#E2E8F0" />
         </Pressable>
-        <View className="w-11 h-11 rounded-full bg-slate-900 border border-slate-800 items-center justify-center">
-          <BookmarkButton story={story} className="p-0" />
+        <View className="flex-row items-center gap-3">
+          <Pressable
+            onPress={onShare}
+            className="w-11 h-11 rounded-full bg-slate-900 border border-slate-800 items-center justify-center active:opacity-80"
+          >
+            <Ionicons name="share-outline" size={22} color="#E2E8F0" />
+          </Pressable>
+          <View className="w-11 h-11 rounded-full bg-slate-900 border border-slate-800 items-center justify-center">
+            <BookmarkButton story={story} className="p-0" />
+          </View>
         </View>
       </View>
 

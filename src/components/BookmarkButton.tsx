@@ -7,6 +7,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+import { useHaptics } from "../hooks/useHaptics";
 import { useSaved } from "../store/useSaved";
 import { Story } from "../types/story";
 
@@ -15,6 +16,7 @@ type Props = { story: Story; light?: boolean; className?: string };
 export default function BookmarkButton({ story, light, className }: Props) {
   const isSaved = useSaved((s) => s.saved.some((x) => x.id === story.id));
   const toggle = useSaved((s) => s.toggle);
+  const { tap, success } = useHaptics();
   const scale = useSharedValue(1);
 
   const style = useAnimatedStyle(() => ({
@@ -26,6 +28,8 @@ export default function BookmarkButton({ story, light, className }: Props) {
       withTiming(1.45, { duration: 110 }),
       withSpring(1, { damping: 7 }),
     );
+    if (isSaved) tap();
+    else success();
     toggle(story);
   };
 
